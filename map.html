@@ -27,22 +27,23 @@
 
         // Load GeoJSON based on selected year
         function loadBorders(year) {
-    let geojsonFile = `borders/${year}.geojson`;
+            let geojsonFile = `borders/${year}.geojson`;
 
-    fetch(geojsonFile)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`No data for year ${year}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            borderLayer.clearLayers(); // Remove old borders
-            borderLayer.addData(data); // Load new borders
-        })
-        .catch(err => console.log(err.message)); // Log missing years
-}
-
+            fetch(geojsonFile)
+                .then(response => {
+                    if (!response.ok) {
+                        console.warn(`No data found for year ${year}`);
+                        return null;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        borderLayer.clearLayers(); // Remove old borders
+                        borderLayer.addData(data); // Load new borders
+                    }
+                })
+                .catch(err => console.log("Error loading data:", err.message));
         }
 
         // Create a timeline slider
@@ -59,4 +60,3 @@
     </script>
 </body>
 </html>
-
