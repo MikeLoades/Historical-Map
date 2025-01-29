@@ -6,29 +6,47 @@
     <title>Historical Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #map {
+            height: 500px;
+            margin: 20px auto;
+            border: 2px solid white;
+        }
+        input[type="range"] {
+            width: 80%;
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>World Borders Over Time</h1>
     <p>Year: <span id="year-display">1800</span></p>
     <input type="range" id="year-slider" min="1800" max="2025" value="1800" step="1">
-    <div id="map" style="height: 500px;"></div>
+    <div id="map"></div>
 
     <script>
         // Initialize the map
         var map = L.map('map').setView([20, 0], 2);
 
-        // Add background map
+        // Apply OpenStreetMap Dark (Stamen Toner Lite) as the background
         L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://stamen.com/">Stamen Design</a>',
-    subdomains: 'abcd',
-    maxZoom: 20
-}).addTo(map);
-
-            attribution: '&copy; OpenStreetMap contributors'
+            attribution: '&copy; <a href="https://stamen.com/">Stamen Design</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
         }).addTo(map);
 
         // Layer for borders
-        var borderLayer = L.geoJson(null).addTo(map);
+        var borderLayer = L.geoJson(null, {
+            style: function () {
+                return { color: "cyan", weight: 1 }; // Makes borders visible on dark background
+            }
+        }).addTo(map);
 
         // Load GeoJSON based on selected year
         function loadBorders(year) {
