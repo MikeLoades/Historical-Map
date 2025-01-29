@@ -11,7 +11,8 @@ var borderLayer = L.geoJson(null).addTo(map);
 
 // Load GeoJSON based on selected year
 function loadBorders(year) {
-    let geojsonFile = `borders/${year}.geojson`; // Adjust path if needed
+    let geojsonFile = `borders/${year}.geojson`;  // ✅ Now this path is correct
+ // Adjust path if needed
 
     fetch(geojsonFile)
         .then(response => response.json())
