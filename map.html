@@ -1,36 +1,55 @@
-// Initialize the map
-var map = L.map('map').setView([20, 0], 2);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <h1>World Borders Over Time</h1>
+    <p>Year: <span id="year-display">1800</span></p>
+    <input type="range" id="year-slider" min="1800" max="2025" value="1800" step="1">
+    <div id="map" style="height: 500px;"></div>
 
-// Add background map
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([20, 0], 2);
 
-// Layer for borders
-var borderLayer = L.geoJson(null).addTo(map);
+        // Add background map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-// Load GeoJSON based on selected year
-function loadBorders(year) {
-    let geojsonFile = `borders/${year}.geojson`;  // ✅ Now this path is correct
- // Adjust path if needed
+        // Layer for borders
+        var borderLayer = L.geoJson(null).addTo(map);
 
-    fetch(geojsonFile)
-        .then(response => response.json())
-        .then(data => {
-            borderLayer.clearLayers(); // Remove old borders
-            borderLayer.addData(data); // Load new borders
-        })
-        .catch(err => console.log("No data for year", year));
-}
+        // Load GeoJSON based on selected year
+        function loadBorders(year) {
+            let geojsonFile = `borders/${year}.geojson`;
 
-// Create a timeline slider
-var slider = document.getElementById("year-slider");
-var yearDisplay = document.getElementById("year-display");
+            fetch(geojsonFile)
+                .then(response => response.json())
+                .then(data => {
+                    borderLayer.clearLayers();
+                    borderLayer.addData(data);
+                })
+                .catch(err => console.log("No data for year", year));
+        }
 
-slider.addEventListener("input", function() {
-    yearDisplay.textContent = this.value;
-    loadBorders(this.value);
-});
+        // Create a timeline slider
+        var slider = document.getElementById("year-slider");
+        var yearDisplay = document.getElementById("year-display");
 
-// Initial load
-loadBorders(1800);
+        slider.addEventListener("input", function() {
+            yearDisplay.textContent = this.value;
+            loadBorders(this.value);
+        });
+
+        // Initial load
+        loadBorders(1800);
+    </script>
+</body>
+</html>
+
