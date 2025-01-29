@@ -8,13 +8,15 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         body {
-            background-color: #1e1e1e;
+            background-color: #121212; /* Dark background */
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
         }
         #map {
             height: 500px;
+            width: 90%;
+            max-width: 1200px;
             margin: 20px auto;
             border: 2px solid white;
         }
@@ -34,17 +36,17 @@
         // Initialize the map
         var map = L.map('map').setView([20, 0], 2);
 
-        // Apply OpenStreetMap Dark (Stamen Toner Lite) as the background
-        L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://stamen.com/">Stamen Design</a>',
+        // Use Carto Dark Mode for a reliable dark background
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.carto.com/">CARTO</a>',
             subdomains: 'abcd',
-            maxZoom: 20
+            maxZoom: 19
         }).addTo(map);
 
         // Layer for borders
         var borderLayer = L.geoJson(null, {
             style: function () {
-                return { color: "cyan", weight: 1 }; // Makes borders visible on dark background
+                return { color: "cyan", weight: 1 }; // Visible borders on dark background
             }
         }).addTo(map);
 
