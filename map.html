@@ -18,7 +18,12 @@
         var map = L.map('map').setView([20, 0], 2);
 
         // Add background map
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://stamen.com/">Stamen Design</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
+}).addTo(map);
+
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
